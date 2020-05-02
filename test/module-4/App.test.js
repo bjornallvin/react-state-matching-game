@@ -23,9 +23,7 @@ describe('App', () => {
 
     const instance = wrapper.instance()
 
-    try {
     instance.handleNumTileChange(14)
-    } catch(error) {}
 
     expect(instance.state.numTiles, 'Did you set the correct state in handleNumTileChange?').toBe(14)
     expect(instance.state.playing,  'Did you set the correct state in handleNumTileChange?').toBe(false)
@@ -36,7 +34,7 @@ describe('App', () => {
   it('Passes handleNumTileChange to OptionsPanel @pass-handle-num-tile-change', () => {
     const optionsPanelProps = wrapper.find(OptionsPanel).props()
 
-    expect(typeof optionsPanelProps.handleNumTileChange, 'Did you define the handleNumTileChange method?').toEqual('function')
+    expect(typeof optionsPanelProps.handleNumTileChange, '').toEqual('function')
   })
 
 

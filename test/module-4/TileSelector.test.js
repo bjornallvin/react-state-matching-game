@@ -17,7 +17,7 @@ describe('TileSelector', () => {
   const instance = wrapper.instance()
 
   it('calls useHover @call-use-hover', () => {
-    expect(useHover.default, 'Did you call useHover?').toHaveBeenCalled()
+    expect(useHover.default, '').toHaveBeenCalled()
   })
 
   it('adds onClick attributes to numbers @on-click-dropdown', () => {

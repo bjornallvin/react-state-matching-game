@@ -1,13 +1,14 @@
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import OptionsPanel from '../OptionsPanel'
 import Board from '../Board'
+import { createTiles, indexOfSelected } from '../../misc/utils'
 
 import './App.css';
-import { createTiles, indexOfSelected } from "../../misc/utils"
 
-class App extends Component {
+class App extends Component{
   constructor(props) {
-    super(props);
+    super(props)
+
     this.state = {
       numTiles: 36,
       playing: false,
@@ -23,7 +24,6 @@ class App extends Component {
       playing: false,
       tiles: []
     })
-
   }
 
 
