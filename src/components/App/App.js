@@ -3,7 +3,7 @@ import OptionsPanel from '../OptionsPanel'
 import Board from '../Board'
 
 import './App.css';
-import { createTiles } from "../../misc/utils"
+import { createTiles, indexOfSelected } from "../../misc/utils"
 
 class App extends Component {
   constructor(props) {
@@ -22,8 +22,56 @@ class App extends Component {
       playing: true,
       previousTileIndex: null,
       toBeCleared: null,
-      tiles: createTiles(state.numTiles)
+      tiles: createTiles(state.numTiles, this.handleTileClicked)
     }));
+  }
+
+  handleTileClicked = (id, color) => {
+    this.setState((state) => {
+      const tiles = state.tiles;
+      let selectedTileIndex = indexOfSelected(tiles, id, color)
+      let previousTileIndex = state.previousTileIndex;
+      let toBeCleared = state.toBeCleared;
+
+      if (toBeCleared !== null) {
+        tiles[toBeCleared[0]].selected = false;
+        tiles[toBeCleared[1]].selected = false;
+        toBeCleared = null;
+      }
+
+      tiles[selectedTileIndex].selected = true;
+
+
+      if (previousTileIndex !== null) {
+        //console.log("we have previous: ", previousTileIndex)
+        let previousTile = tiles[previousTileIndex];
+        let selectedTile = tiles[selectedTileIndex];
+        //console.log({ previousTile })
+        //console.log({ selectedTile })
+        if (previousTile.id !== selectedTile.id && previousTile.color == color) {
+          //console.log("We have a match")
+          tiles[selectedTileIndex].matched = true;
+          tiles[previousTileIndex].matched = true;
+          previousTileIndex = null;
+        } else {
+          toBeCleared = [previousTileIndex, selectedTileIndex];
+          previousTileIndex = null;
+        }
+      }
+      else {
+        previousTileIndex = selectedTileIndex
+      }
+
+      const newState = {
+        previousTileIndex,
+        tiles,
+        toBeCleared
+      }
+
+      //console.log({ newState })
+
+      return newState
+    })
   }
 
   render() {

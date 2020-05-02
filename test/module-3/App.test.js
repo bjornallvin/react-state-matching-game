@@ -18,7 +18,7 @@ describe('App', () => {
     const setStateSpy = jest.spyOn(App.prototype, 'setState')
     const wrapper = shallow(<App />)
     const instance = wrapper.instance()
-    instance.setState({tiles: [{id: 1, color: '#'}]})
+    instance.setState({ tiles: [{ id: 1, color: '#' }] })
     const tiles = instance.state.tiles
 
     let mockCall
@@ -30,7 +30,7 @@ describe('App', () => {
       mockCall = setStateSpy.mock.calls[1][0]
       cleared = mockCall.toBeCleared
       mockTiles = mockCall.tiles
-    } catch(error) {}
+    } catch (error) { }
 
     expect(cleared, 'Did you call setState with the correct values?').toBe(null)
     expect(mockTiles, 'Did you call setState with the correct values?').toEqual(expect.any(Array))
@@ -46,11 +46,11 @@ describe('App', () => {
       instance.startGame(10)
       tiles = instance.state.tiles
       instance.handleTileClicked(tiles[5].id, tiles[5].color)
-    } catch(error) {}
-    
+    } catch (error) { }
+
 
     expect(setStateSpy, 'Did you set the previousTileIndex to the selectedTileIndex?')
-      .toHaveBeenCalledWith({ previousTileIndex: 5, tiles, toBeCleared: null})
+      .toHaveBeenCalledWith({ previousTileIndex: 5, tiles, toBeCleared: null })
 
   })
 
@@ -67,18 +67,23 @@ describe('App', () => {
     try {
       instance.startGame(10)
       tiles = instance.state.tiles
+      //console.log({ tiles })
       selectedTile = tiles[5]
 
-      matchingPreviousTileIndex = instance.state.tiles.findIndex((tile) => {
+      //console.log({ selectedTile })
+
+      matchingPreviousTileIndex = tiles.findIndex((tile) => {
         return tile.color === selectedTile.color && tile.key !== selectedTile.key
       })
 
-      instance.setState({previousTileIndex: matchingPreviousTileIndex})
+      //console.log({ matchingPreviousTileIndex })
+
+      instance.setState({ previousTileIndex: matchingPreviousTileIndex })
       instance.handleTileClicked(selectedTile.id, selectedTile.color)
       tiles = instance.state.tiles
       fifthTileMatched = tiles[5].matched
       matching = tiles[matchingPreviousTileIndex].matched
-    } catch (error) {}
+    } catch (error) { }
 
     expect(fifthTileMatched, 'Did you set the matched property of the selected tile to true?').toBe(true)
     expect(matching, 'Did you set the matched property of the previous tile to true?').toBe(true)
@@ -94,14 +99,14 @@ describe('App', () => {
     try {
       instance.startGame(10)
       tiles = instance.state.tiles
-      instance.setState({previousTileIndex: 0})
+      instance.setState({ previousTileIndex: 0 })
       instance.handleTileClicked(tiles[5].id, tiles[5].color)
       tiles = instance.state.tiles
       toBeCleared = instance.state.toBeCleared
-    } catch (eror) {}
+    } catch (eror) { }
 
     expect(toBeCleared, 'Did you add the previous and selected tiles to toBeCleared?')
-      .toEqual([0,5])
+      .toEqual([0, 5])
     expect(instance.state.previousTileIndex, 'Did you set the previousTileIndex to nulll?').toBe(null)
 
   })
@@ -132,7 +137,7 @@ describe('App', () => {
       toBeCleared = instance.state.toBeCleared
       zeroethSelected = tiles[0].selected
       firstSelected = tiles[1].selected
-    } catch(error) {}
+    } catch (error) { }
 
     expect(toBeCleared, 'Did you set toBeCleared to null?').toBe(null)
     expect(zeroethSelected, 'Did you remember to set the first tile in toBeSelected selected property to false?')
@@ -153,11 +158,11 @@ describe('App', () => {
       tiles = instance.state.tiles
       instance.handleTileClicked(tiles[3].id, tiles[3].color)
       thirdSelected = tiles[3].selected
-    } catch(error) {}
+    } catch (error) { }
 
     expect(thirdSelected, 'Did you set the selected property on the clicked tile?').toBe(true)
   })
-    
+
   it('attaches the handleTileClicked method to the tiles in the array @handle-tile-clicked-array', () => {
     const wrapper = shallow(<App />)
     const instance = wrapper.instance()
@@ -169,7 +174,7 @@ describe('App', () => {
 
       tiles = instance.state.tiles
       thirdHandler = tiles[3].handleTileClicked
-    } catch(error) {}
+    } catch (error) { }
 
     expect(typeof thirdHandler, 'Did you add the handleTileClicked method to the call to createTiles?').toBe('function')
   })
